@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Contact;
 
 class ContactController extends Controller
 {
@@ -36,7 +37,18 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->all());
+        //disini bikin variable contact yang isinya
+        $contact = Contact::create($request->all());
+        //Disini arti contact itu nama modelnya, yang udah dibuat
+        //Nah ini create data, dari data request semuanya gitu
+        $contact->save();
+        //Ini artinya variable contact akan kita simpan, tapi (.....)suaranya ga jelas yang di youtube:"((
+        //Jadi pokoknya ditambahin
+        return redirect('contacts');
+        //Maksud contacts disinii, jadi nanti setelah filenya berhhasil disimpan dia akan kembali
+        //lagi ke contact usnya bukan ke home
+        
     }
 
     /**
