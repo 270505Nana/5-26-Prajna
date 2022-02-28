@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+
+<!-- Ini ngambil dari laravel -->
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
