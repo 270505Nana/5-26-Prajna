@@ -33,12 +33,18 @@ Route::get('/gallery', function (){
         "title" => "Gallery"
     ]);
 });
-Route::resource('/contacts', ContactController::class);
+// Route::resource('/contacts', ContactController::class);
+
+Route::get('/contacts/create', [ContactController::class, 'edit'])->name('contacts.edit');
 
 Auth::routes();
 
 Route::group(['middleware' => ['auth']], function(){
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/contacts/index', [ContactController::class, 'index'])->name('contacts.index');
+    Route::get('/contacts/(id)/edit', [ContactController::class, 'edit'])->name('contacts.edit');
+    Route::post('/contacts/(id)/update', [ContactController::class, 'update'])->name('contacts.update');
+    Route::get('/contacts/destroy', [ContactController::class, 'destroy'])->name('contacts.destroy');
 });
 
 //Artinya semua route yang ada di middle ware bisa diakses kalo udah login, kalau belum login

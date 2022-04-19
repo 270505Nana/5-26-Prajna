@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Contact;
+use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
@@ -14,9 +14,8 @@ class ContactController extends Controller
      */
     public function index()
     {
-        return view('contacts', [
-            "title" => "Contacts"
-        ]); 
+       $contacts = Contact::paginate(3);
+       return view('admin/contacts/index',  compact('contacts'));
     }
 
     /**
@@ -26,7 +25,9 @@ class ContactController extends Controller
      */
     public function create()
     {
-        //
+         return view('contact',[
+            "title" => "Contact"
+        ]);
     }
 
     /**
@@ -37,18 +38,10 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-        //disini bikin variable contact yang isinya
         $contact = Contact::create($request->all());
-        //Disini arti contact itu nama modelnya, yang udah dibuat
-        //Nah ini create data, dari data request semuanya gitu
         $contact->save();
-        //Ini artinya variable contact akan kita simpan, tapi (.....)suaranya ga jelas yang di youtube:"((
-        //Jadi pokoknya ditambahin
-        return redirect('contacts');
-        //Maksud contacts disinii, jadi nanti setelah filenya berhhasil disimpan dia akan kembali
-        //lagi ke contact usnya bukan ke home
-        
+
+        return redirect('contact');
     }
 
     /**
@@ -59,7 +52,7 @@ class ContactController extends Controller
      */
     public function show($id)
     {
-        //
+        
     }
 
     /**
@@ -70,7 +63,8 @@ class ContactController extends Controller
      */
     public function edit($id)
     {
-        //
+        $contact = Contact::findOrFail($id);
+        return view('admin/contacts/edit');
     }
 
     /**
@@ -82,7 +76,11 @@ class ContactController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+       $contact = Contact::findOrFail($id);
+       $contact->update($request->all());
+       $contact->save();
+
+       return redirect()->route('contacts.index');
     }
 
     /**
@@ -93,6 +91,10 @@ class ContactController extends Controller
      */
     public function destroy($id)
     {
-        //
+    
+       $contact = Contact::findOrFail($id);
+       $contact->delete();
+       return redirect()->route('contacts.index');
+
     }
 }
