@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Contact;
 use Illuminate\Http\Request;
+use App\Models\Contact;
+
 
 class ContactController extends Controller
 {
@@ -15,6 +16,7 @@ class ContactController extends Controller
     public function index()
     {
        $contacts = Contact::paginate(3);
+    //    2
        return view('admin/contacts/index',  compact('contacts'));
     }
 
@@ -25,8 +27,8 @@ class ContactController extends Controller
      */
     public function create()
     {
-         return view('contact',[
-            "title" => "Contact"
+         return view('contacts',[
+            "title" => "Contacts"
         ]);
     }
 
@@ -41,7 +43,7 @@ class ContactController extends Controller
         $contact = Contact::create($request->all());
         $contact->save();
 
-        return redirect('contact');
+        return redirect()->route('contacts.create');
     }
 
     /**
@@ -64,7 +66,7 @@ class ContactController extends Controller
     public function edit($id)
     {
         $contact = Contact::findOrFail($id);
-        return view('admin/contacts/edit');
+        return view('admin/contacts/edit', compact('contact'));
     }
 
     /**
